@@ -9,16 +9,11 @@ csv::CSVReader::CSVReader(std::ifstream& file, const char delimiter)
 {
 	m_delim = delimiter;
 	std::string row;
-	bool first_iteration = 1;
+	// first get the headers
+	std::getline(file, row);
+	headers = csv::CSVRow(row, delimiter);
 
 	while (std::getline(file, row)) {
-
-		if (first_iteration) {
-			headers = csv::CSVRow(row, delimiter);
-			first_iteration = 0;
-			continue;
-		}
-
 		csvRows.push_back({ row, delimiter });
 	}
 }
